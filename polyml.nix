@@ -1,12 +1,6 @@
 # For Isabelle, we need to enable `--enable-intinf-as-int' otherwise it won't build
 # Isabelle/Pure.
-{ lib
-, stdenv
-, fetchFromGitHub
-, autoreconfHook
-, gmp
-, libffi
-}:
+{ lib, stdenv, fetchFromGitHub, autoreconfHook, gmp, libffi }:
 
 stdenv.mkDerivation rec {
   pname = "polyml";

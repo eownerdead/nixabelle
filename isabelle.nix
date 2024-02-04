@@ -1,7 +1,10 @@
 # Ideally, we should use the bundled versions of cvc4, z3, veriT, zipperposition and e.
 # But I prefer using those coming from nixpkgs (careful, z3 needs to be the version 4.4.0).
 
-{ lib, stdenv, fetchurl, coreutils, nettools, jdk, polyml, z3, veriT, vampire, eprover-ho, naproche, rlwrap, perl, makeDesktopItem, isabelle-components, isabelle, symlinkJoin, curl, spass, leo2, leo3-bin, iprover, satallax, cvc4, cvc5, fetchhg }:
+{ lib, stdenv, fetchurl, coreutils, nettools, jdk, polyml, z3, veriT, vampire
+, eprover-ho, naproche, rlwrap, perl, makeDesktopItem, isabelle-components
+, isabelle, symlinkJoin, curl, spass, leo2, leo3-bin, iprover, satallax, cvc4
+, cvc5, fetchhg }:
 # nettools needed for hostname
 
 let
@@ -35,7 +38,8 @@ let
   leo3 = leo3-bin;
 
   contrib-apache-commons = fetchurl {
-    url = "https://isabelle.sketis.net/components/apache-commons-20211211.tar.gz";
+    url =
+      "https://isabelle.sketis.net/components/apache-commons-20211211.tar.gz";
     sha256 = "sha256-fP37+sHgNYla/S4/kel6f++1viCgvNPXL4wWVtcQwKI=";
   };
   contrib-bash_process = fetchurl {
@@ -83,11 +87,13 @@ let
     sha256 = "sha256-2ZuHFSpNDyA23HaWUVRCX2ACtcVuc8qP5hIaxbtoztY=";
   };
   contrib-isabelle_fonts = fetchurl {
-    url = "https://isabelle.sketis.net/components/isabelle_fonts-20211004.tar.gz";
+    url =
+      "https://isabelle.sketis.net/components/isabelle_fonts-20211004.tar.gz";
     sha256 = "sha256-0Q/LhAdVD1tpBnug7z/++LCFalsmwLoVE81oyz6nwHM=";
   };
   contrib-isabelle_setup = fetchurl {
-    url = "https://isabelle.sketis.net/components/isabelle_setup-20230206.tar.gz";
+    url =
+      "https://isabelle.sketis.net/components/isabelle_setup-20230206.tar.gz";
     sha256 = "sha256-5bF95eBElvYLOFcnKsoRmJEvsSyvNSb0zJdqJnOo7r4=";
   };
   # contrib-jdk = fetchurl {
@@ -175,7 +181,8 @@ let
     sha256 = "sha256-ZL61lR+fQUB83oBFPXn6rwJH2m/25PqJiC2WcCWkEUw=";
   };
   contrib-sqlite-jdbc = fetchurl {
-    url = "https://isabelle.sketis.net/components/sqlite-jdbc-3.42.0.0-1.tar.gz";
+    url =
+      "https://isabelle.sketis.net/components/sqlite-jdbc-3.42.0.0-1.tar.gz";
     sha256 = "sha256-p/gBdJkhRm81QhJHIYWOqSQmKBYkUI8DYKnfo9GqJm4=";
   };
   contrib-stack = fetchurl {
@@ -207,391 +214,412 @@ let
     sha256 = "sha256-rWY43x4hlo0gcSo7VlZEe3EuynIWieU9F8k+BhwkJmg=";
   };
 
-  isabelle = stdenv.mkDerivation
-    rec {
-      pname = "isabelle";
-      version = "2023";
+  isabelle = stdenv.mkDerivation rec {
+    pname = "isabelle";
+    version = "2023";
 
-      dirname = "Isabelle${version}";
+    dirname = "Isabelle${version}";
 
-      src =
-        fetchurl {
-          url = "https://github.com/m-fleury/isabelle-emacs/archive/${dirname}-vsce.tar.gz";
-          sha256 = "sha256-nE6Ec+4XA3LdC+dFwY7leUvS8EluQJEjclMm3lN39rQ=";
-        };
-
-      buildInputs = [ polyml z3 veriT vampire eprover-ho nettools curl cvc4 cvc5 leo2 leo3 iprover satallax ];
-
-      # sourceRoot = "${dirname}${lib.optionalString stdenv.isDarwin ".app"}";
-      sourceRoot = "isabelle-emacs-${dirname}-vsce";
-
-      postUnpack =
-        ''
-          mv $sourceRoot ${dirname}
-          sourceRoot=${dirname}
-        
-          OLD_PWD=$(pwd)
-          mkdir $sourceRoot/contrib
-          cd $sourceRoot/contrib 
-
-          # echo 'unpacking source archive ${contrib-apache-commons}'
-          # tar -xf ${contrib-apache-commons}
-          echo 'unpacking source archive ${contrib-bash_process}'
-          tar -xf ${contrib-bash_process}
-          echo 'unpacking source archive ${contrib-bib2xhtml}'
-          tar -xf ${contrib-bib2xhtml}
-          echo 'unpacking source archive ${contrib-csdp}'
-          tar -xf ${contrib-csdp}
-          # CVC4
-          # E prover
-          echo 'unpacking source archive ${contrib-easychair}'
-          tar -xf ${contrib-easychair}
-          echo 'unpacking source archive ${contrib-eptcs}'
-          tar -xf ${contrib-eptcs}
-          echo 'unpacking source archive ${contrib-flatlaf}'
-          tar -xf ${contrib-flatlaf}
-          echo 'unpacking source archive ${contrib-foiltex}'
-          tar -xf ${contrib-foiltex}
-          echo 'unpacking source archive ${contrib-gnu-utils}'
-          tar -xf ${contrib-gnu-utils}
-          echo 'unpacking source archive ${contrib-idea-icons}'
-          tar -xf ${contrib-idea-icons}
-          echo 'unpacking source archive ${contrib-isabelle_fonts}'
-          tar -xf ${contrib-isabelle_fonts}
-          echo 'unpacking source archive ${contrib-isabelle_setup}'
-          tar -xf ${contrib-isabelle_setup}
-          # JDK
-          echo 'unpacking source archive ${contrib-jedit}'
-          tar -xf ${contrib-jedit}
-          echo 'unpacking source archive ${contrib-jfreechart}'
-          tar -xf ${contrib-jfreechart}
-          echo 'unpacking source archive ${contrib-jortho}'
-          tar -xf ${contrib-jortho}
-          echo 'unpacking source archive ${contrib-jsoup}'
-          tar -xf ${contrib-jsoup}
-          echo 'unpacking source archive ${contrib-kodkodi}'
-          tar -xf ${contrib-kodkodi}
-          echo 'unpacking source archive ${contrib-lipics}'
-          tar -xf ${contrib-lipics}
-          echo 'unpacking source archive ${contrib-llncs}'
-          tar -xf ${contrib-llncs}
-          echo 'unpacking source archive ${contrib-minisat}'
-          tar -xf ${contrib-minisat}
-          echo 'unpacking source archive ${contrib-mlton}'
-          tar -xf ${contrib-mlton}
-          echo 'unpacking source archive ${contrib-naproche}'
-          tar -xf ${contrib-naproche}
-          echo 'unpacking source archive ${contrib-nunchaku}'
-          tar -xf ${contrib-nunchaku}
-          echo 'unpacking source archive ${contrib-opam}'
-          tar -xf ${contrib-opam}
-          echo 'unpacking source archive ${contrib-pdfjs}'
-          tar -xf ${contrib-pdfjs}
-          # PolyML
-          echo 'unpacking source archive ${contrib-postgresql}'
-          tar -xf ${contrib-postgresql}
-          echo 'unpacking source archive ${contrib-prismjs}'
-          tar -xf ${contrib-prismjs}
-          echo 'unpacking source archive ${contrib-rsync}'
-          tar -xf ${contrib-rsync}
-          echo 'unpacking source archive ${contrib-scala}'
-          tar -xf ${contrib-scala}
-          echo 'unpacking source archive ${contrib-smbc}'
-          tar -xf ${contrib-smbc}
-          echo 'unpacking source archive ${contrib-spass}'
-          tar -xf ${contrib-spass}
-          echo 'unpacking source archive ${contrib-sqlite-jdbc}'
-          tar -xf ${contrib-sqlite-jdbc}
-          echo 'unpacking source archive ${contrib-stack}'
-          tar -xf ${contrib-stack}
-          # Vampire
-          # VeriT
-          echo 'unpacking source archive ${contrib-xz-java}'
-          tar -xf ${contrib-xz-java}
-          # Z3
-          echo 'unpacking source archive ${contrib-zipperposition}'
-          tar -xf ${contrib-zipperposition}
-          echo 'unpacking source archive ${contrib-zstd-jni}'
-          tar -xf ${contrib-zstd-jni}
-
-          # We don't need the sources...
-          rm -r rsync-*/src
-
-          cd $OLD_PWD          
-        '';
-
-      postPatch = ''
-        patchShebangs .
-
-        mkdir -p \
-          contrib/${z3.name}/etc \
-          contrib/${veriT.name}/etc \
-          contrib/${eprover-ho.name}/etc \
-          contrib/${vampire.name}/etc \
-          contrib/${polyml.name}/etc \
-          contrib/${java.name}/etc \
-          contrib/${leo2.name}/etc \
-          contrib/${leo3.name}/etc \
-          contrib/${satallax.name}/etc \
-          contrib/${cvc5.name}/etc \
-          contrib/${cvc4.name}/etc \
-          contrib/${iprover.name}/etc 
-      
-        cat >contrib/${z3.name}/etc/settings <<EOF
-          Z3_HOME=${z3}
-          Z3_VERSION=${z3.version}
-          Z3_SOLVER=${z3}/bin/z3
-          Z3_INSTALLED=yes
-        EOF
-
-        cat >contrib/${veriT.name}/etc/settings <<EOF
-          ISABELLE_VERIT=${veriT}/bin/veriT
-        EOF
-
-        cat >contrib/${eprover-ho.name}/etc/settings <<EOF
-          E_HOME=${eprover-ho}/bin
-          E_VERSION=${eprover-ho.version}
-        EOF
-
-        cat >contrib/${vampire.name}/etc/settings <<EOF
-          VAMPIRE_HOME=${vampire}/bin
-          VAMPIRE_VERSION=${vampire.version}
-          VAMPIRE_EXTRA_OPTIONS="--mode casc"
-        EOF
-
-        cat >contrib/${polyml.name}/etc/settings <<EOF
-          ML_SYSTEM=${polyml.name}
-          ML_PLATFORM=${stdenv.system}
-          ML_HOME=${polyml}/bin
-          ML_OPTIONS="--minheap 512 --max-heap 16384"
-          POLYML_HOME="\$COMPONENT"
-          ML_SOURCES="\$POLYML_HOME/src"
-        EOF
-
-        cat >contrib/${java.name}/etc/settings <<EOF
-          ISABELLE_JAVA_PLATFORM=${stdenv.system}
-          ISABELLE_JDK_HOME=${java}
-        EOF
-
-        cat >contrib/${leo2.name}/etc/settings <<EOF
-          LEO2_HOME=${leo2}/bin
-          LEO2_VERSION=${leo2.version}
-        EOF
-
-        cat >contrib/${leo3.name}/etc/settings <<EOF
-          LEO3_HOME=${leo3}/bin
-          LEO3_VERSION=${leo3.version}
-        EOF
-
-        cat >contrib/${satallax.name}/etc/settings <<EOF
-          SATALLAX_HOME=${satallax}/bin
-          SATALLAX_VERSION=${satallax.version} 
-        EOF
-
-        cat >contrib/${cvc5.name}/etc/settings <<EOF
-          CVC5_HOME=${cvc5}/bin
-          CVC5_SOLVER=${cvc5}/bin/cvc5
-          CVC5_VERSION=${cvc5.version}
-        EOF
-
-        cat >contrib/${cvc4.name}/etc/settings <<EOF
-          CVC4_HOME=${cvc4}/bin
-          CVC4_SOLVER=${cvc4}/bin/cvc4
-          CVC4_VERSION=${cvc4.version}
-        EOF
-
-        cat >contrib/${iprover.name}/etc/settings <<EOF
-          IPROVER_HOME=${iprover}/bin
-          IPROVER_VERSION=${iprover.version}
-        EOF
-
-        cat >etc/components <<EOF
-        #built-in components
-        src/Tools/jEdit
-        src/Tools/GraphBrowser
-        src/Tools/Graphview
-        src/Tools/Setup
-        src/Tools/VSCode
-        src/HOL/Mutabelle
-        src/HOL/Library/Sum_of_Squares
-        src/HOL/SPARK
-        src/HOL/Tools
-        src/HOL/TPTP
-        #bundled components
-        contrib/gnu-utils-20211030
-        contrib/bash_process-1.3
-        contrib/bib2xhtml-20190409
-        contrib/csdp-6.1.1
-        contrib/${cvc4.name}
-        contrib/${cvc5.name}
-        contrib/${eprover-ho.name}
-        contrib/easychair-3.5
-        contrib/eptcs-1.7.0
-        contrib/flatlaf-2.6
-        contrib/foiltex-2.1.4b
-        contrib/idea-icons-20210508
-        contrib/${iprover.name}
-        contrib/isabelle_fonts-20211004
-        contrib/isabelle_setup-20230206
-        contrib/${java.name}
-        contrib/jedit-20211103
-        contrib/jfreechart-1.5.3
-        contrib/jortho-1.0-2
-        contrib/jsoup-1.15.4
-        contrib/kodkodi-1.5.7
-        contrib/${leo2.name}
-        contrib/${leo3.name}
-        contrib/lipics-3.1.3
-        contrib/llncs-2.22
-        contrib/minisat-2.2.1-1
-        contrib/mlton-20210117-1
-        contrib/nunchaku-0.5
-        contrib/opam-2.0.7
-        contrib/pdfjs-2.14.305
-        contrib/${polyml.name}
-        contrib/postgresql-42.6.0
-        contrib/prismjs-1.29.0
-        contrib/rsync-3.2.7
-        contrib/${satallax.name}
-        contrib/scala-3.3.0
-        contrib/smbc-0.4.1
-        contrib/spass-3.8ds-2
-        contrib/sqlite-jdbc-3.42.0.0-1
-        contrib/stack-2.9.3
-        contrib/${vampire.name}
-        contrib/${veriT.name}
-        #contrib/vscode_extension-20220829
-        #contrib/vscodium-1.70.1
-        contrib/xz-java-1.9
-        contrib/${z3.name}
-        contrib/zipperposition-2.1-1
-        contrib/zstd-jni-1.5.5-4
-        contrib/naproche-20230902
-        EOF
-
-        # rm contrib/naproche-*/x86*/Naproche-SAD
-        # ln -s ${naproche}/bin/Naproche-SAD contrib/naproche-*/x86*/
-
-        echo ISABELLE_LINE_EDITOR=${rlwrap}/bin/rlwrap >>etc/settings
-
-        # for comp in contrib/jdk* contrib/polyml-* contrib/z3-* contrib/verit-* contrib/vampire-* contrib/e-*; do
-        #   rm -rf $comp/x86*
-        # done
-
-        substituteInPlace lib/Tools/env \
-          --replace /usr/bin/env ${coreutils}/bin/env
-
-        substituteInPlace src/Tools/Setup/src/Environment.java \
-          --replace 'cmd.add("/usr/bin/env");' "" \
-          --replace 'cmd.add("bash");' "cmd.add(\"$SHELL\");" \
-          --replace 'private static read_file(path: Path): String =' 'private static String read_file(Path path) throws IOException'
-
-        substituteInPlace src/Pure/General/sha1.ML \
-          --replace '"$ML_HOME/" ^ (if ML_System.platform_is_windows then "sha1.dll" else "libsha1.so")' '"${sha1}/lib/libsha1.so"'
-
-        # rm -r heaps
-      '' + lib.optionalString (stdenv.hostPlatform.system == "x86_64-darwin") ''
-        substituteInPlace lib/scripts/isabelle-platform \
-          --replace 'ISABELLE_APPLE_PLATFORM64=arm64-darwin' ""
-      '' + (if ! stdenv.isLinux then "" else ''
-        arch=${if stdenv.hostPlatform.system == "x86_64-linux" then "x86_64-linux" else "x86-linux"}
-        for f in contrib/*/$arch/{epclextract,nunchaku,zipperposition,rsync}; do
-          patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"
-        done
-        for f in contrib/*/platform_$arch/bash_process; do
-          patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"
-        done
-        for d in contrib/kodkodi-*/jni/$arch; do
-          patchelf --set-rpath "${lib.concatStringsSep ":" [ "${java}/lib/openjdk/lib/server" "${stdenv.cc.cc.lib}/lib" ]}" $d/*.so
-        done
-      '');
-
-      # patches = [
-      #   ./isabelle_src_Pure_ML_ml_statistics.ML.patch
-      #   ./isabelle_src_Pure_General_integer.ML.patch
-      # ];
-
-      buildPhase = ''
-        export HOME=$TMP # The build fails if home is not set
-        setup_name=$(basename contrib/isabelle_setup*)
-
-        SCALA_DIR=$(basename contrib/scala-*)
-
-        #The following is adapted from https://isabelle.sketis.net/repos/isabelle/file/Isabelle2021-1/Admin/lib/Tools/build_setup
-        TARGET_DIR="contrib/$setup_name/lib"
-        rm -rf "$TARGET_DIR"
-        mkdir -p "$TARGET_DIR/isabelle/setup"
-        declare -a ARGS=("-Xlint:unchecked")
-
-        SOURCES="$(${perl}/bin/perl -e 'while (<>) { if (m/(\S+\.java)/)  { print "$1 "; } }' "src/Tools/Setup/etc/build.props")"
-        for SRC in $SOURCES
-        do
-          ARGS["''${#ARGS[@]}"]="src/Tools/Setup/$SRC"
-        done
-      
-        ${java}/bin/javac -d "$TARGET_DIR" -classpath "contrib/$SCALA_DIR/lib/*" "''${ARGS[@]}"
-        ${java}/bin/jar -c -f "$TARGET_DIR/isabelle_setup.jar" -e "isabelle.setup.Setup" -C "$TARGET_DIR" isabelle
-        rm -rf "$TARGET_DIR/isabelle"
-
-        # Prebuild HOL Session
-        bin/isabelle build -v -o system_heaps -b HOL
-      '';
-
-      installPhase = ''
-        mkdir -p $out/bin
-        mv $TMP/$dirname $out
-        cd $out/$dirname
-        bin/isabelle install $out/bin
-
-        # icon
-        mkdir -p "$out/share/icons/hicolor/isabelle/apps"
-        cp "$out/Isabelle${version}/lib/icons/isabelle.xpm" "$out/share/icons/hicolor/isabelle/apps/"
-
-        # fonts
-        mkdir -p "$out/share/fonts/ttf-hinted"
-        # cp -r "$out/Isabelle${version}/contrib/isabelle_fonts-20211004/ttf" "$out/share/fonts"
-        cp -r "$out/Isabelle${version}/contrib/isabelle_fonts-20211004/ttf-hinted" "$out/share/fonts"
-
-        # desktop item
-        mkdir -p "$out/share"
-        cp -r "${desktopItem}/share/applications" "$out/share/applications"
-      '';
-
-      desktopItem = makeDesktopItem {
-        name = "isabelle";
-        exec = "isabelle jedit";
-        icon = "isabelle";
-        desktopName = "Isabelle";
-        comment = meta.description;
-        categories = [ "Education" "Science" "Math" ];
-      };
-
-      meta = with lib; {
-        description = "A generic proof assistant";
-
-        longDescription = ''
-          Isabelle is a generic proof assistant.  It allows mathematical formulas
-          to be expressed in a formal language and provides tools for proving those
-          formulas in a logical calculus.
-        '';
-        homepage = "https://isabelle.in.tum.de/";
-        sourceProvenance = with sourceTypes; [
-          fromSource
-          binaryNativeCode # source bundles binary dependencies
-        ];
-        license = licenses.bsd3;
-        maintainers = [ maintainers.jwiegley maintainers.jvanbruegge ];
-        platforms = platforms.unix;
-      };
+    src = fetchurl {
+      url =
+        "https://github.com/m-fleury/isabelle-emacs/archive/${dirname}-vsce.tar.gz";
+      sha256 = "sha256-nE6Ec+4XA3LdC+dFwY7leUvS8EluQJEjclMm3lN39rQ=";
     };
-in
-isabelle // {
+
+    buildInputs = [
+      polyml
+      z3
+      veriT
+      vampire
+      eprover-ho
+      nettools
+      curl
+      cvc4
+      cvc5
+      leo2
+      leo3
+      iprover
+      satallax
+    ];
+
+    # sourceRoot = "${dirname}${lib.optionalString stdenv.isDarwin ".app"}";
+    sourceRoot = "isabelle-emacs-${dirname}-vsce";
+
+    postUnpack = ''
+      mv $sourceRoot ${dirname}
+      sourceRoot=${dirname}
+
+      OLD_PWD=$(pwd)
+      mkdir $sourceRoot/contrib
+      cd $sourceRoot/contrib
+
+      # echo 'unpacking source archive ${contrib-apache-commons}'
+      # tar -xf ${contrib-apache-commons}
+      echo 'unpacking source archive ${contrib-bash_process}'
+      tar -xf ${contrib-bash_process}
+      echo 'unpacking source archive ${contrib-bib2xhtml}'
+      tar -xf ${contrib-bib2xhtml}
+      echo 'unpacking source archive ${contrib-csdp}'
+      tar -xf ${contrib-csdp}
+      # CVC4
+      # E prover
+      echo 'unpacking source archive ${contrib-easychair}'
+      tar -xf ${contrib-easychair}
+      echo 'unpacking source archive ${contrib-eptcs}'
+      tar -xf ${contrib-eptcs}
+      echo 'unpacking source archive ${contrib-flatlaf}'
+      tar -xf ${contrib-flatlaf}
+      echo 'unpacking source archive ${contrib-foiltex}'
+      tar -xf ${contrib-foiltex}
+      echo 'unpacking source archive ${contrib-gnu-utils}'
+      tar -xf ${contrib-gnu-utils}
+      echo 'unpacking source archive ${contrib-idea-icons}'
+      tar -xf ${contrib-idea-icons}
+      echo 'unpacking source archive ${contrib-isabelle_fonts}'
+      tar -xf ${contrib-isabelle_fonts}
+      echo 'unpacking source archive ${contrib-isabelle_setup}'
+      tar -xf ${contrib-isabelle_setup}
+      # JDK
+      echo 'unpacking source archive ${contrib-jedit}'
+      tar -xf ${contrib-jedit}
+      echo 'unpacking source archive ${contrib-jfreechart}'
+      tar -xf ${contrib-jfreechart}
+      echo 'unpacking source archive ${contrib-jortho}'
+      tar -xf ${contrib-jortho}
+      echo 'unpacking source archive ${contrib-jsoup}'
+      tar -xf ${contrib-jsoup}
+      echo 'unpacking source archive ${contrib-kodkodi}'
+      tar -xf ${contrib-kodkodi}
+      echo 'unpacking source archive ${contrib-lipics}'
+      tar -xf ${contrib-lipics}
+      echo 'unpacking source archive ${contrib-llncs}'
+      tar -xf ${contrib-llncs}
+      echo 'unpacking source archive ${contrib-minisat}'
+      tar -xf ${contrib-minisat}
+      echo 'unpacking source archive ${contrib-mlton}'
+      tar -xf ${contrib-mlton}
+      echo 'unpacking source archive ${contrib-naproche}'
+      tar -xf ${contrib-naproche}
+      echo 'unpacking source archive ${contrib-nunchaku}'
+      tar -xf ${contrib-nunchaku}
+      echo 'unpacking source archive ${contrib-opam}'
+      tar -xf ${contrib-opam}
+      echo 'unpacking source archive ${contrib-pdfjs}'
+      tar -xf ${contrib-pdfjs}
+      # PolyML
+      echo 'unpacking source archive ${contrib-postgresql}'
+      tar -xf ${contrib-postgresql}
+      echo 'unpacking source archive ${contrib-prismjs}'
+      tar -xf ${contrib-prismjs}
+      echo 'unpacking source archive ${contrib-rsync}'
+      tar -xf ${contrib-rsync}
+      echo 'unpacking source archive ${contrib-scala}'
+      tar -xf ${contrib-scala}
+      echo 'unpacking source archive ${contrib-smbc}'
+      tar -xf ${contrib-smbc}
+      echo 'unpacking source archive ${contrib-spass}'
+      tar -xf ${contrib-spass}
+      echo 'unpacking source archive ${contrib-sqlite-jdbc}'
+      tar -xf ${contrib-sqlite-jdbc}
+      echo 'unpacking source archive ${contrib-stack}'
+      tar -xf ${contrib-stack}
+      # Vampire
+      # VeriT
+      echo 'unpacking source archive ${contrib-xz-java}'
+      tar -xf ${contrib-xz-java}
+      # Z3
+      echo 'unpacking source archive ${contrib-zipperposition}'
+      tar -xf ${contrib-zipperposition}
+      echo 'unpacking source archive ${contrib-zstd-jni}'
+      tar -xf ${contrib-zstd-jni}
+
+      # We don't need the sources...
+      rm -r rsync-*/src
+
+      cd $OLD_PWD
+    '';
+
+    postPatch = ''
+      patchShebangs .
+
+      mkdir -p \
+        contrib/${z3.name}/etc \
+        contrib/${veriT.name}/etc \
+        contrib/${eprover-ho.name}/etc \
+        contrib/${vampire.name}/etc \
+        contrib/${polyml.name}/etc \
+        contrib/${java.name}/etc \
+        contrib/${leo2.name}/etc \
+        contrib/${leo3.name}/etc \
+        contrib/${satallax.name}/etc \
+        contrib/${cvc5.name}/etc \
+        contrib/${cvc4.name}/etc \
+        contrib/${iprover.name}/etc
+
+      cat >contrib/${z3.name}/etc/settings <<EOF
+        Z3_HOME=${z3}
+        Z3_VERSION=${z3.version}
+        Z3_SOLVER=${z3}/bin/z3
+        Z3_INSTALLED=yes
+      EOF
+
+      cat >contrib/${veriT.name}/etc/settings <<EOF
+        ISABELLE_VERIT=${veriT}/bin/veriT
+      EOF
+
+      cat >contrib/${eprover-ho.name}/etc/settings <<EOF
+        E_HOME=${eprover-ho}/bin
+        E_VERSION=${eprover-ho.version}
+      EOF
+
+      cat >contrib/${vampire.name}/etc/settings <<EOF
+        VAMPIRE_HOME=${vampire}/bin
+        VAMPIRE_VERSION=${vampire.version}
+        VAMPIRE_EXTRA_OPTIONS="--mode casc"
+      EOF
+
+      cat >contrib/${polyml.name}/etc/settings <<EOF
+        ML_SYSTEM=${polyml.name}
+        ML_PLATFORM=${stdenv.system}
+        ML_HOME=${polyml}/bin
+        ML_OPTIONS="--minheap 512 --max-heap 16384"
+        POLYML_HOME="\$COMPONENT"
+        ML_SOURCES="\$POLYML_HOME/src"
+      EOF
+
+      cat >contrib/${java.name}/etc/settings <<EOF
+        ISABELLE_JAVA_PLATFORM=${stdenv.system}
+        ISABELLE_JDK_HOME=${java}
+      EOF
+
+      cat >contrib/${leo2.name}/etc/settings <<EOF
+        LEO2_HOME=${leo2}/bin
+        LEO2_VERSION=${leo2.version}
+      EOF
+
+      cat >contrib/${leo3.name}/etc/settings <<EOF
+        LEO3_HOME=${leo3}/bin
+        LEO3_VERSION=${leo3.version}
+      EOF
+
+      cat >contrib/${satallax.name}/etc/settings <<EOF
+        SATALLAX_HOME=${satallax}/bin
+        SATALLAX_VERSION=${satallax.version} 
+      EOF
+
+      cat >contrib/${cvc5.name}/etc/settings <<EOF
+        CVC5_HOME=${cvc5}/bin
+        CVC5_SOLVER=${cvc5}/bin/cvc5
+        CVC5_VERSION=${cvc5.version}
+      EOF
+
+      cat >contrib/${cvc4.name}/etc/settings <<EOF
+        CVC4_HOME=${cvc4}/bin
+        CVC4_SOLVER=${cvc4}/bin/cvc4
+        CVC4_VERSION=${cvc4.version}
+      EOF
+
+      cat >contrib/${iprover.name}/etc/settings <<EOF
+        IPROVER_HOME=${iprover}/bin
+        IPROVER_VERSION=${iprover.version}
+      EOF
+
+      cat >etc/components <<EOF
+      #built-in components
+      src/Tools/jEdit
+      src/Tools/GraphBrowser
+      src/Tools/Graphview
+      src/Tools/Setup
+      src/Tools/VSCode
+      src/HOL/Mutabelle
+      src/HOL/Library/Sum_of_Squares
+      src/HOL/SPARK
+      src/HOL/Tools
+      src/HOL/TPTP
+      #bundled components
+      contrib/gnu-utils-20211030
+      contrib/bash_process-1.3
+      contrib/bib2xhtml-20190409
+      contrib/csdp-6.1.1
+      contrib/${cvc4.name}
+      contrib/${cvc5.name}
+      contrib/${eprover-ho.name}
+      contrib/easychair-3.5
+      contrib/eptcs-1.7.0
+      contrib/flatlaf-2.6
+      contrib/foiltex-2.1.4b
+      contrib/idea-icons-20210508
+      contrib/${iprover.name}
+      contrib/isabelle_fonts-20211004
+      contrib/isabelle_setup-20230206
+      contrib/${java.name}
+      contrib/jedit-20211103
+      contrib/jfreechart-1.5.3
+      contrib/jortho-1.0-2
+      contrib/jsoup-1.15.4
+      contrib/kodkodi-1.5.7
+      contrib/${leo2.name}
+      contrib/${leo3.name}
+      contrib/lipics-3.1.3
+      contrib/llncs-2.22
+      contrib/minisat-2.2.1-1
+      contrib/mlton-20210117-1
+      contrib/nunchaku-0.5
+      contrib/opam-2.0.7
+      contrib/pdfjs-2.14.305
+      contrib/${polyml.name}
+      contrib/postgresql-42.6.0
+      contrib/prismjs-1.29.0
+      contrib/rsync-3.2.7
+      contrib/${satallax.name}
+      contrib/scala-3.3.0
+      contrib/smbc-0.4.1
+      contrib/spass-3.8ds-2
+      contrib/sqlite-jdbc-3.42.0.0-1
+      contrib/stack-2.9.3
+      contrib/${vampire.name}
+      contrib/${veriT.name}
+      #contrib/vscode_extension-20220829
+      #contrib/vscodium-1.70.1
+      contrib/xz-java-1.9
+      contrib/${z3.name}
+      contrib/zipperposition-2.1-1
+      contrib/zstd-jni-1.5.5-4
+      contrib/naproche-20230902
+      EOF
+
+      # rm contrib/naproche-*/x86*/Naproche-SAD
+      # ln -s ${naproche}/bin/Naproche-SAD contrib/naproche-*/x86*/
+
+      echo ISABELLE_LINE_EDITOR=${rlwrap}/bin/rlwrap >>etc/settings
+
+      # for comp in contrib/jdk* contrib/polyml-* contrib/z3-* contrib/verit-* contrib/vampire-* contrib/e-*; do
+      #   rm -rf $comp/x86*
+      # done
+
+      substituteInPlace lib/Tools/env \
+        --replace /usr/bin/env ${coreutils}/bin/env
+
+      substituteInPlace src/Tools/Setup/src/Environment.java \
+        --replace 'cmd.add("/usr/bin/env");' "" \
+        --replace 'cmd.add("bash");' "cmd.add(\"$SHELL\");" \
+        --replace 'private static read_file(path: Path): String =' 'private static String read_file(Path path) throws IOException'
+
+      substituteInPlace src/Pure/General/sha1.ML \
+        --replace '"$ML_HOME/" ^ (if ML_System.platform_is_windows then "sha1.dll" else "libsha1.so")' '"${sha1}/lib/libsha1.so"'
+
+      # rm -r heaps
+    '' + lib.optionalString (stdenv.hostPlatform.system == "x86_64-darwin") ''
+      substituteInPlace lib/scripts/isabelle-platform \
+        --replace 'ISABELLE_APPLE_PLATFORM64=arm64-darwin' ""
+    '' + (if !stdenv.isLinux then
+      ""
+    else ''
+      arch=${
+        if stdenv.hostPlatform.system == "x86_64-linux" then
+          "x86_64-linux"
+        else
+          "x86-linux"
+      }
+      for f in contrib/*/$arch/{epclextract,nunchaku,zipperposition,rsync}; do
+        patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"
+      done
+      for f in contrib/*/platform_$arch/bash_process; do
+        patchelf --set-interpreter $(cat ${stdenv.cc}/nix-support/dynamic-linker) "$f"
+      done
+      for d in contrib/kodkodi-*/jni/$arch; do
+        patchelf --set-rpath "${
+          lib.concatStringsSep ":" [
+            "${java}/lib/openjdk/lib/server"
+            "${stdenv.cc.cc.lib}/lib"
+          ]
+        }" $d/*.so
+      done
+    '');
+
+    # patches = [
+    #   ./isabelle_src_Pure_ML_ml_statistics.ML.patch
+    #   ./isabelle_src_Pure_General_integer.ML.patch
+    # ];
+
+    buildPhase = ''
+      export HOME=$TMP # The build fails if home is not set
+      setup_name=$(basename contrib/isabelle_setup*)
+
+      SCALA_DIR=$(basename contrib/scala-*)
+
+      #The following is adapted from https://isabelle.sketis.net/repos/isabelle/file/Isabelle2021-1/Admin/lib/Tools/build_setup
+      TARGET_DIR="contrib/$setup_name/lib"
+      rm -rf "$TARGET_DIR"
+      mkdir -p "$TARGET_DIR/isabelle/setup"
+      declare -a ARGS=("-Xlint:unchecked")
+
+      SOURCES="$(${perl}/bin/perl -e 'while (<>) { if (m/(\S+\.java)/)  { print "$1 "; } }' "src/Tools/Setup/etc/build.props")"
+      for SRC in $SOURCES
+      do
+        ARGS["''${#ARGS[@]}"]="src/Tools/Setup/$SRC"
+      done
+
+      ${java}/bin/javac -d "$TARGET_DIR" -classpath "contrib/$SCALA_DIR/lib/*" "''${ARGS[@]}"
+      ${java}/bin/jar -c -f "$TARGET_DIR/isabelle_setup.jar" -e "isabelle.setup.Setup" -C "$TARGET_DIR" isabelle
+      rm -rf "$TARGET_DIR/isabelle"
+
+      # Prebuild HOL Session
+      bin/isabelle build -v -o system_heaps -b HOL
+    '';
+
+    installPhase = ''
+      mkdir -p $out/bin
+      mv $TMP/$dirname $out
+      cd $out/$dirname
+      bin/isabelle install $out/bin
+
+      # icon
+      mkdir -p "$out/share/icons/hicolor/isabelle/apps"
+      cp "$out/Isabelle${version}/lib/icons/isabelle.xpm" "$out/share/icons/hicolor/isabelle/apps/"
+
+      # fonts
+      mkdir -p "$out/share/fonts/ttf-hinted"
+      # cp -r "$out/Isabelle${version}/contrib/isabelle_fonts-20211004/ttf" "$out/share/fonts"
+      cp -r "$out/Isabelle${version}/contrib/isabelle_fonts-20211004/ttf-hinted" "$out/share/fonts"
+
+      # desktop item
+      mkdir -p "$out/share"
+      cp -r "${desktopItem}/share/applications" "$out/share/applications"
+    '';
+
+    desktopItem = makeDesktopItem {
+      name = "isabelle";
+      exec = "isabelle jedit";
+      icon = "isabelle";
+      desktopName = "Isabelle";
+      comment = meta.description;
+      categories = [ "Education" "Science" "Math" ];
+    };
+
+    meta = with lib; {
+      description = "A generic proof assistant";
+
+      longDescription = ''
+        Isabelle is a generic proof assistant.  It allows mathematical formulas
+        to be expressed in a formal language and provides tools for proving those
+        formulas in a logical calculus.
+      '';
+      homepage = "https://isabelle.in.tum.de/";
+      sourceProvenance = with sourceTypes; [
+        fromSource
+        binaryNativeCode # source bundles binary dependencies
+      ];
+      license = licenses.bsd3;
+      maintainers = [ maintainers.jwiegley maintainers.jvanbruegge ];
+      platforms = platforms.unix;
+    };
+  };
+in isabelle // {
   # Use this if you want to use additional components such as the AFP
   withComponents = components:
-    let
-      base = "$out/${isabelle.dirname}";
-    in
-    symlinkJoin {
+    let base = "$out/${isabelle.dirname}";
+    in symlinkJoin {
       name = "isabelle-with-components-${isabelle.version}";
       paths = [ isabelle ];
 
@@ -609,11 +637,9 @@ isabelle // {
         export HOME=$TMP
         bin/isabelle install $out/bin
         patchShebangs $out/bin
-      '' + lib.concatMapStringsSep "\n"
-        (c: ''
-          echo ${c}/lib/thys >> ${base}/etc/components
-        '')
-        components;
+      '' + lib.concatMapStringsSep "\n" (c: ''
+        echo ${c}/lib/thys >> ${base}/etc/components
+      '') components;
     };
   # withComponents = components:
   #   isabelle.overrideAttrs (old: {

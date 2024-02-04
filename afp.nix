@@ -12,8 +12,8 @@ stdenv.mkDerivation rec {
 
   installPhase = ''
     mkdir -p $out/lib
-    
+
     mv thys etc tools/lib/afp_build web $out/lib/
-    rm $out/lib/etc/build.props 
+    rm $out/lib/etc/build.props
   '';
 }
