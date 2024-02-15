@@ -1,0 +1,315 @@
+diff --git a/etc/build.props b/etc/build.props
+index 1cf2202..d939044 100644
+--- a/etc/build.props
++++ b/etc/build.props
+@@ -14,39 +14,8 @@ sources = \
+   src/Pure/Admin/build_doc.scala \
+   src/Pure/Admin/build_history.scala \
+   src/Pure/Admin/build_log.scala \
+-  src/Pure/Admin/build_release.scala \
+-  src/Pure/Admin/build_status.scala \
+-  src/Pure/Admin/check_sources.scala \
+-  src/Pure/Admin/ci_build.scala \
+-  src/Pure/Admin/component_csdp.scala \
+-  src/Pure/Admin/component_cvc5.scala \
+-  src/Pure/Admin/component_cygwin.scala \
+-  src/Pure/Admin/component_e.scala \
+-  src/Pure/Admin/component_easychair.scala \
+-  src/Pure/Admin/component_eptcs.scala \
+-  src/Pure/Admin/component_foiltex.scala \
+-  src/Pure/Admin/component_fonts.scala \
+-  src/Pure/Admin/component_jdk.scala \
+-  src/Pure/Admin/component_jedit.scala \
+-  src/Pure/Admin/component_jsoup.scala \
+   src/Pure/Admin/component_lipics.scala \
+-  src/Pure/Admin/component_llncs.scala \
+-  src/Pure/Admin/component_minisat.scala \
+-  src/Pure/Admin/component_pdfjs.scala \
+-  src/Pure/Admin/component_polyml.scala \
+-  src/Pure/Admin/component_postgresql.scala \
+-  src/Pure/Admin/component_prismjs.scala \
+   src/Pure/Admin/component_rsync.scala \
+-  src/Pure/Admin/component_scala.scala \
+-  src/Pure/Admin/component_spass.scala \
+-  src/Pure/Admin/component_sqlite.scala \
+-  src/Pure/Admin/component_stack.scala \
+-  src/Pure/Admin/component_vampire.scala \
+-  src/Pure/Admin/component_verit.scala \
+-  src/Pure/Admin/component_zipperposition.scala \
+-  src/Pure/Admin/component_zstd.scala \
+-  src/Pure/Admin/isabelle_cronjob.scala \
+-  src/Pure/Admin/isabelle_devel.scala \
+   src/Pure/Concurrent/consumer_thread.scala \
+   src/Pure/Concurrent/counter.scala \
+   src/Pure/Concurrent/delay.scala \
+@@ -56,12 +25,6 @@ sources = \
+   src/Pure/Concurrent/mailbox.scala \
+   src/Pure/Concurrent/par_list.scala \
+   src/Pure/Concurrent/synchronized.scala \
+-  src/Pure/GUI/color_value.scala \
+-  src/Pure/GUI/desktop_app.scala \
+-  src/Pure/GUI/gui.scala \
+-  src/Pure/GUI/gui_thread.scala \
+-  src/Pure/GUI/popup.scala \
+-  src/Pure/GUI/wrap_panel.scala \
+   src/Pure/General/antiquote.scala \
+   src/Pure/General/base64.scala \
+   src/Pure/General/bytes.scala \
+@@ -200,7 +163,6 @@ sources = \
+   src/Pure/Tools/dump.scala \
+   src/Pure/Tools/flarum.scala \
+   src/Pure/Tools/fontforge.scala \
+-  src/Pure/Tools/java_monitor.scala \
+   src/Pure/Tools/logo.scala \
+   src/Pure/Tools/mkroot.scala \
+   src/Pure/Tools/phabricator.scala \
+@@ -228,18 +190,13 @@ sources = \
+   src/Pure/term_xml.scala \
+   src/Pure/thm_name.scala \
+   src/Tools/Graphview/graph_file.scala \
+-  src/Tools/Graphview/graph_panel.scala \
+   src/Tools/Graphview/graphview.scala \
+   src/Tools/Graphview/layout.scala \
+-  src/Tools/Graphview/main_panel.scala \
+   src/Tools/Graphview/metrics.scala \
+   src/Tools/Graphview/model.scala \
+   src/Tools/Graphview/mutator.scala \
+-  src/Tools/Graphview/mutator_dialog.scala \
+   src/Tools/Graphview/mutator_event.scala \
+-  src/Tools/Graphview/popups.scala \
+   src/Tools/Graphview/shapes.scala \
+-  src/Tools/Graphview/tree_panel.scala \
+   src/Tools/VSCode/src/channel.scala \
+   src/Tools/VSCode/src/component_vscode_extension.scala \
+   src/Tools/VSCode/src/component_vscodium.scala \
+@@ -252,64 +209,7 @@ sources = \
+   src/Tools/VSCode/src/vscode_model.scala \
+   src/Tools/VSCode/src/vscode_rendering.scala \
+   src/Tools/VSCode/src/vscode_resources.scala \
+-  src/Tools/VSCode/src/vscode_spell_checker.scala \
+-  src/Tools/jEdit/src/active.scala \
+-  src/Tools/jEdit/src/base_plugin.scala \
+-  src/Tools/jEdit/src/completion_popup.scala \
+-  src/Tools/jEdit/src/context_menu.scala \
+-  src/Tools/jEdit/src/debugger_dockable.scala \
+-  src/Tools/jEdit/src/dockable.scala \
+-  src/Tools/jEdit/src/document_dockable.scala \
+-  src/Tools/jEdit/src/document_model.scala \
+-  src/Tools/jEdit/src/document_view.scala \
+-  src/Tools/jEdit/src/documentation_dockable.scala \
+-  src/Tools/jEdit/src/fold_handling.scala \
+-  src/Tools/jEdit/src/font_info.scala \
+-  src/Tools/jEdit/src/graphview_dockable.scala \
+-  src/Tools/jEdit/src/info_dockable.scala \
+-  src/Tools/jEdit/src/isabelle.scala \
+-  src/Tools/jEdit/src/isabelle_encoding.scala \
+-  src/Tools/jEdit/src/isabelle_export.scala \
+-  src/Tools/jEdit/src/isabelle_session.scala \
+-  src/Tools/jEdit/src/isabelle_vfs.scala \
+-  src/Tools/jEdit/src/jedit_bibtex.scala \
+-  src/Tools/jEdit/src/jedit_editor.scala \
+-  src/Tools/jEdit/src/jedit_jar.scala \
+-  src/Tools/jEdit/src/jedit_lib.scala \
+-  src/Tools/jEdit/src/jedit_main.scala \
+-  src/Tools/jEdit/src/jedit_options.scala \
+-  src/Tools/jEdit/src/jedit_plugins.scala \
+-  src/Tools/jEdit/src/jedit_rendering.scala \
+-  src/Tools/jEdit/src/jedit_resources.scala \
+-  src/Tools/jEdit/src/jedit_sessions.scala \
+-  src/Tools/jEdit/src/jedit_spell_checker.scala \
+-  src/Tools/jEdit/src/keymap_merge.scala \
+-  src/Tools/jEdit/src/main_plugin.scala \
+-  src/Tools/jEdit/src/monitor_dockable.scala \
+-  src/Tools/jEdit/src/output_dockable.scala \
+-  src/Tools/jEdit/src/pide_docking_framework.scala \
+-  src/Tools/jEdit/src/pretty_text_area.scala \
+-  src/Tools/jEdit/src/pretty_tooltip.scala \
+-  src/Tools/jEdit/src/process_indicator.scala \
+-  src/Tools/jEdit/src/protocol_dockable.scala \
+-  src/Tools/jEdit/src/query_dockable.scala \
+-  src/Tools/jEdit/src/raw_output_dockable.scala \
+-  src/Tools/jEdit/src/rich_text_area.scala \
+-  src/Tools/jEdit/src/session_build.scala \
+-  src/Tools/jEdit/src/simplifier_trace_dockable.scala \
+-  src/Tools/jEdit/src/simplifier_trace_window.scala \
+-  src/Tools/jEdit/src/sledgehammer_dockable.scala \
+-  src/Tools/jEdit/src/state_dockable.scala \
+-  src/Tools/jEdit/src/status_widget.scala \
+-  src/Tools/jEdit/src/symbols_dockable.scala \
+-  src/Tools/jEdit/src/syntax_style.scala \
+-  src/Tools/jEdit/src/syslog_dockable.scala \
+-  src/Tools/jEdit/src/text_overview.scala \
+-  src/Tools/jEdit/src/text_structure.scala \
+-  src/Tools/jEdit/src/theories_dockable.scala \
+-  src/Tools/jEdit/src/theories_status.scala \
+-  src/Tools/jEdit/src/timing_dockable.scala \
+-  src/Tools/jEdit/src/token_markup.scala
++  src/Tools/VSCode/src/vscode_spell_checker.scala
+ services = \
+   isabelle.Bash$Handler \
+   isabelle.Bibtex$File_Format \
+@@ -319,7 +219,6 @@ services = \
+   isabelle.Document_Build$LIPIcs_PDFLaTeX_Engine \
+   isabelle.Document_Build$LuaLaTeX_Engine \
+   isabelle.Document_Build$PDFLaTeX_Engine \
+-  isabelle.CI_Builds \
+   isabelle.ML_Statistics$Handler \
+   isabelle.Print_Operation$Handler \
+   isabelle.Scala$Handler \
+@@ -328,9 +227,6 @@ services = \
+   isabelle.Sessions$ROOTS_File_Format \
+   isabelle.Simplifier_Trace$Handler \
+   isabelle.Tools \
+-  isabelle.jedit.JEdit_Plugin0 \
+-  isabelle.jedit.JEdit_Plugin1 \
+-  isabelle.jedit.JEdit_JAR$Scala_Functions \
+   isabelle.nitpick.Kodkod$Handler \
+   isabelle.nitpick.Scala_Functions \
+   isabelle.spark.SPARK$Load_Command1 \
+diff --git a/src/Pure/Concurrent/delay.scala b/src/Pure/Concurrent/delay.scala
+index 25e1155..3157824 100644
+--- a/src/Pure/Concurrent/delay.scala
++++ b/src/Pure/Concurrent/delay.scala
+@@ -10,11 +10,11 @@ package isabelle
+ object Delay {
+   // delayed event after first invocation
+   def first(delay: => Time, log: Logger = No_Logger, gui: Boolean = false)(event: => Unit): Delay =
+-    new Delay(true, delay, log, if (gui) GUI_Thread.later { event } else event )
++    new Delay(true, delay, log, event)
+ 
+   // delayed event after last invocation
+   def last(delay: => Time, log: Logger = No_Logger, gui: Boolean = false)(event: => Unit): Delay =
+-    new Delay(false, delay, log, if (gui) GUI_Thread.later { event } else event )
++    new Delay(false, delay, log, event)
+ }
+ 
+ final class Delay private(first: Boolean, delay: => Time, log: Logger, event: => Unit) {
+diff --git a/src/Pure/ML/ml_statistics.scala b/src/Pure/ML/ml_statistics.scala
+index b3e4818..1fde5ea 100644
+--- a/src/Pure/ML/ml_statistics.scala
++++ b/src/Pure/ML/ml_statistics.scala
+@@ -294,15 +294,4 @@ final class ML_Statistics private(
+ 
+   def chart(fields: ML_Statistics.Fields): JFreeChart =
+     chart(fields.title, fields.names)
+-
+-  def show_frames(fields: List[ML_Statistics.Fields] = ML_Statistics.main_fields): Unit =
+-    fields.map(chart).foreach(c =>
+-      GUI_Thread.later {
+-        new Frame {
+-          iconImage = GUI.isabelle_image()
+-          title = heading
+-          contents = Component.wrap(new ChartPanel(c))
+-          visible = true
+-        }
+-      })
+ }
+diff --git a/src/Pure/ROOT.ML b/src/Pure/ROOT.ML
+index db09725..c0a891e 100644
+--- a/src/Pure/ROOT.ML
++++ b/src/Pure/ROOT.ML
+@@ -367,6 +367,5 @@ ML_file "Tools/simplifier_trace.ML";
+ ML_file_no_debug "Tools/debugger.ML";
+ ML_file "Tools/named_theorems.ML";
+ ML_file "Tools/doc.ML";
+-ML_file "Tools/jedit.ML";
+ ML_file "Tools/ghc.ML";
+ ML_file "Tools/generated_files.ML";
+diff --git a/src/Pure/System/classpath.scala b/src/Pure/System/classpath.scala
+index 7ba7183..14b0343 100644
+--- a/src/Pure/System/classpath.scala
++++ b/src/Pure/System/classpath.scala
+@@ -82,7 +82,7 @@ class Classpath private(static_jars: List[JFile], dynamic_jars: List[JFile]) {
+   {
+     val variable = "ISABELLE_SCALA_SERVICES"
+     val services_env =
+-      init_services(quote(variable), space_explode(':', Isabelle_System.getenv_strict(variable)))
++      init_services(quote(variable), space_explode(':', Isabelle_System.getenv(variable)))
+     val services_jars =
+       jars.flatMap(jar =>
+         init_services(File.standard_path(jar),
+diff --git a/src/Pure/System/isabelle_tool.scala b/src/Pure/System/isabelle_tool.scala
+index 0215786..943522d 100644
+--- a/src/Pure/System/isabelle_tool.scala
++++ b/src/Pure/System/isabelle_tool.scala
+@@ -124,7 +124,6 @@ class Tools extends Isabelle_Scala_Tools(
+   Build.isabelle_tool2,
+   Build.isabelle_tool3,
+   Build.isabelle_tool4,
+-  CI_Build.isabelle_tool,
+   Doc.isabelle_tool,
+   Docker_Build.isabelle_tool,
+   Document_Build.isabelle_tool,
+@@ -137,10 +136,6 @@ class Tools extends Isabelle_Scala_Tools(
+   Mercurial.isabelle_tool2,
+   Mkroot.isabelle_tool,
+   Options.isabelle_tool,
+-  Phabricator.isabelle_tool1,
+-  Phabricator.isabelle_tool2,
+-  Phabricator.isabelle_tool3,
+-  Phabricator.isabelle_tool4,
+   Profiling.isabelle_tool,
+   Profiling_Report.isabelle_tool,
+   Scala_Project.isabelle_tool,
+@@ -156,41 +151,3 @@ class Tools extends Isabelle_Scala_Tools(
+   isabelle.mirabelle.Mirabelle.isabelle_tool,
+   isabelle.vscode.Language_Server.isabelle_tool,
+   isabelle.vscode.VSCode_Main.isabelle_tool)
+-
+-class Admin_Tools extends Isabelle_Scala_Tools(
+-  Build_Doc.isabelle_tool,
+-  Build_Log.isabelle_tool,
+-  Build_Status.isabelle_tool,
+-  Check_Sources.isabelle_tool,
+-  Component_CSDP.isabelle_tool,
+-  Component_CVC5.isabelle_tool,
+-  Component_Cygwin.isabelle_tool,
+-  Component_E.isabelle_tool,
+-  Component_EPTCS.isabelle_tool,
+-  Component_Easychair.isabelle_tool,
+-  Component_Foiltex.isabelle_tool,
+-  Component_Fonts.isabelle_tool,
+-  Component_JDK.isabelle_tool,
+-  Component_JEdit.isabelle_tool,
+-  Component_Jsoup.isabelle_tool,
+-  Component_LIPIcs.isabelle_tool,
+-  Component_LLNCS.isabelle_tool,
+-  Component_Minisat.isabelle_tool,
+-  Component_PDFjs.isabelle_tool,
+-  Component_PolyML.isabelle_tool1,
+-  Component_PolyML.isabelle_tool2,
+-  Component_PostgreSQL.isabelle_tool,
+-  Component_Prismjs.isabelle_tool,
+-  Component_Rsync.isabelle_tool,
+-  Component_SPASS.isabelle_tool,
+-  Component_SQLite.isabelle_tool,
+-  Component_Scala.isabelle_tool,
+-  Component_Stack.isabelle_tool,
+-  Component_Vampire.isabelle_tool,
+-  Component_VeriT.isabelle_tool,
+-  Component_Zipperposition.isabelle_tool,
+-  Component_Zstd.isabelle_tool,
+-  Components.isabelle_tool,
+-  isabelle.vscode.Component_VSCode.isabelle_tool,
+-  isabelle.vscode.Component_VSCodium.isabelle_tool1,
+-  isabelle.vscode.Component_VSCodium.isabelle_tool2)
+diff --git a/src/Pure/Tools/task_statistics.scala b/src/Pure/Tools/task_statistics.scala
+index cde574c..e914b4b 100644
+--- a/src/Pure/Tools/task_statistics.scala
++++ b/src/Pure/Tools/task_statistics.scala
+@@ -46,15 +46,5 @@ final class Task_Statistics private(
+ 
+     c
+   }
+-
+-  def show_frame(bins: Int = 100): Unit =
+-    GUI_Thread.later {
+-      new Frame {
+-        iconImage = GUI.isabelle_image()
+-        title = session_name
+-        contents = Component.wrap(new ChartPanel(chart(bins)))
+-        visible = true
+-      }
+-    }
+ }
+ 

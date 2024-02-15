@@ -9,27 +9,22 @@
 
   outputs = { self, nixpkgs, flake-utils }:
     let
-      systems = with flake-utils.lib;
-        [
-          system.x86_64-linux
-          # Sorry if you are on any other system, but we require some packages which
-          # can't be installed there.
-        ];
+      systems = with flake-utils.lib; [ system.x86_64-linux ];
     in flake-utils.lib.eachSystem systems (system:
       let
         pkgs = import nixpkgs { inherit system; };
-        polyml = pkgs.callPackage ./polyml.nix { };
-        isabelle = pkgs.callPackage ./isabelle.nix { inherit polyml; };
-        # Create a fake "emacs" executable which sets the correct path to the LSP server at startup.
+        inherit (pkgs) lib;
       in {
         formatter = pkgs.nixfmt;
 
-        packages = {
-          inherit isabelle polyml;
-          isabelle-afp = pkgs.callPackage ./afp.nix { };
-          isabelle-llvm = pkgs.callPackage ./llvm.nix { };
+        packages = rec {
+          default = isabelle;
+          isabelle = pkgs.callPackage ./isabelle.nix {
+            inherit polyml;
+          };
+          polyml = pkgs.polyml.overrideAttrs (old: {
+            configureFlags = old.configureFlags ++ [ "--enable-intinf-as-int" ];
+          });
         };
-      }) // {
-        lib = import ./lib.nix self;
-      };
+      });
 }
